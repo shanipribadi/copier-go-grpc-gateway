@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"crypto/tls"
 	"net"
 	"net/http"
 	"strings"
@@ -107,6 +108,21 @@ func (s *Server) Start(ctx context.Context) error {
 
 		g.Go(func() error {
 			return certinel.Start(ctx)
+		})
+
+		tlsCfg := &tls.Config{
+			GetCertificate: certinel.GetCertificate,
+			NextProtos:     []string{"h2", "http/1.1"},
+		}
+
+		tlsListener, err := lc.Listen(ctx, "tcp", s.config.TlsListenAddress)
+		if err != nil {
+			return err
+		}
+		tlsListener = tls.NewListener(tlsListener, tlsCfg)
+		// Start HTTP server (and proxy calls to gRPC server endpoint)
+		g.Go(func() error {
+			return srv.Serve(tlsListener)
 		})
 	}
 

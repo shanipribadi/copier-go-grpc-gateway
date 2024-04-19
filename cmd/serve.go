@@ -83,7 +83,7 @@ func init() {
 	rootCmd.AddCommand(serveCmd)
 
 	serveCmd.Flags().String("listen-address", ":8080", "listen address")
-	serveCmd.Flags().String("tls-listen-address", ":84343", "tls listen address")
+	serveCmd.Flags().String("tls-listen-address", ":8443", "tls listen address")
 	serveCmd.Flags().String("tls-private-key", "", "path to private key")
 	serveCmd.Flags().String("tls-certificate", "", "path to certificate")
 
