@@ -61,7 +61,7 @@ func (s *Server) Start(ctx context.Context) error {
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
-	cc, err := grpc.DialContext(ctx, s.config.ListenAddress, opts...)
+	cc, err := grpc.NewClient(s.config.ListenAddress, opts...)
 	if err != nil {
 		return err
 	}
