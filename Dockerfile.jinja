@@ -1,7 +1,7 @@
 # Use the official Golang image to create a build artifact.
 # This is based on Debian and sets the GOPATH to /go.
 # https://hub.docker.com/_/golang
-FROM golang:1.22 as builder
+FROM golang:1.23 as builder
 # Create and change to the app directory.
 WORKDIR /src
 # Retrieve application dependencies using go modules.
@@ -12,12 +12,12 @@ RUN go mod download
 COPY . ./
 # Build the binary.
 # -mod=readonly ensures immutable go.mod and go.sum in container builds.
-RUN CGO_ENABLED=1 GOOS=linux go build -mod=readonly -v -o go-cookiecutter
+RUN CGO_ENABLED=1 GOOS=linux go build -mod=readonly -v -o {{application_name}}
 
 # Build the runtime container image from scratch, copying what is needed from the previous stage.  
 # https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds
-FROM golang:1.22
+FROM golang:1.23
 # Copy the binary to the production image from the builder stage.
-COPY --from=builder /src/go-cookiecutter /app/go-cookiecutter
+COPY --from=builder /src/{{application_name}} /app/{{application_name}}
 # Run the web service on container startup.
-ENTRYPOINT ["/app/go-cookiecutter"]
+ENTRYPOINT ["/app/{{application_name}}"]

@@ -1,0 +1,56 @@
+module_path:
+  type: str
+  help: What is your go module path?
+  placeholder: github.com/shanipribadi/go-cookiecutter
+  validator: >-
+    {% if not (module_path | regex_search('^[\w-]+(\.[\w-]+)+(/[\w-]+)+$')) %}
+    module_path must be valid go module path
+    {% endif %}
+buf_module:
+  type: str
+  help: What is your buf module path?
+  placeholder: buf.build/shanipribadi/go-cookiecutter
+  validator: >-
+    {% if not (buf_module | regex_search('^[\w-]+(\.[\w-]+)+(/[\w-]+){2}$')) %}
+    buf_module must be in the form registry/owner/name
+    {% endif %}
+application_name:
+  type: str
+  help: What is your application/binary name?
+  placeholder: go-cookiecutter
+  validator: >-
+    {% if not (application_name | regex_search('^[a-z0-9-]+$')) %}
+    application_name must be lower alphanumeric or hyphen
+    {% endif %}
+proto_package_root:
+  type: str
+  help: What is your proto package root name?
+  placeholder: shanipribadi.go_cookiecutter
+  validator: >-
+    {% if not (proto_package_root | regex_search('^\w+(\.\w+)+$')) %}
+    proto_package_root must be alphanumeric or underscore separated by period
+    {% endif %}
+proto_service_version:
+  type: str
+  help: What is your proto service version?
+  default: v1
+  when: false
+proto_service_package:
+  type: str
+  default: "{{proto_package_root}}.{{proto_service_version}}"
+  when: false
+proto_service_name:
+  type: str
+  help: What is your proto service name?
+  placeholder: CookieCutterService
+  validator: >-
+    {% if not (proto_service_name | regex_search('([A-Z][a-z0-9]+)((\d)|([A-Z0-9][a-z0-9]+))*([A-Z])?')) %}
+    proto_service_name must be in PascalCase
+    {% endif %}
+copyright_holder:
+  type: str
+  help: The person or entity that holds copyrights.
+year:
+  type: int
+  help: copyright year?
+  default: 2024

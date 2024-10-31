@@ -1,5 +1,5 @@
 /*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+Copyright © {{year}} {{copyright_holder}}
 */
 package cmd
 
@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/viper"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/shanipribadi/go-cookiecutter/server"
+	"{{module_path}}/server"
 )
 
 // serveCmd represents the serve command
@@ -37,7 +37,7 @@ to quickly create a Cobra application.`,
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		cookieCutterService := &server.CookieCutterService{
+		service := &server.{{proto_service_name}}{
 		}
 		srv := server.New(
 			&server.ServerConfig{
@@ -48,7 +48,7 @@ to quickly create a Cobra application.`,
 			},
 			&server.ServerDependencies{
 				Logger:       logger,
-				CookieCutterService: cookieCutterService,
+				{{proto_service_name}}: service,
 			},
 		)
 

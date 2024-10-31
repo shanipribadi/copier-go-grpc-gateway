@@ -1,5 +1,5 @@
 syntax = "proto3";
-package shanipribadi.go_cookiecutter.v1;
+package {{proto_service_package}};
 
 import "google/api/annotations.proto";
 
@@ -10,7 +10,7 @@ message HelloResponse {
   string message = 1;
 }
 
-service CookieCutterService {
+service {{proto_service_name}} {
   rpc Hello(HelloRequest) returns (HelloResponse) {
     option (google.api.http) = {
       get: "/v1/hello/{name=*}"

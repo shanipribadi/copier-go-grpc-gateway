@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	go_cookiecutterv1 "github.com/shanipribadi/go-cookiecutter/gen/shanipribadi/go-cookiecutter/v1"
+	servicepb "{{module_path}}/gen/{{proto_service_package.replace('_','-').replace('.','/')}}"
 
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
@@ -41,11 +41,11 @@ type ServerConfig struct {
 
 type ServerDependencies struct {
 	Logger              zerolog.Logger
-	CookieCutterService *CookieCutterService
+  {{proto_service_name}} *{{proto_service_name}}
 }
 
-type CookieCutterService struct {
-	go_cookiecutterv1.UnimplementedCookieCutterServiceServer
+type {{proto_service_name}} struct {
+	servicepb.Unimplemented{{proto_service_name}}Server
 }
 
 func New(cfg *ServerConfig, deps *ServerDependencies) *Server {
@@ -76,11 +76,11 @@ func (s *Server) Start(ctx context.Context) error {
 	grpc_health_v1.RegisterHealthServer(grpcSrv, healthSrv)
 
 	/// XXX: your service registration
-	err = go_cookiecutterv1.RegisterCookieCutterServiceHandler(ctx, mux, cc)
+	err = servicepb.Register{{proto_service_name}}Handler(ctx, mux, cc)
 	if err != nil {
 		return err
 	}
-	go_cookiecutterv1.RegisterCookieCutterServiceServer(grpcSrv, s.deps.CookieCutterService)
+	servicepb.Register{{proto_service_name}}Server(grpcSrv, s.deps.{{proto_service_name}})
 
 	reflection.Register(grpcSrv)
 
