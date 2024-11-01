@@ -62,12 +62,12 @@ func initLog() {
 	if viper.GetBool("log-unix-timestamp") {
 		zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	}
-  lvl, err := zerolog.ParseLevel(viper.GetString("log-level"))
-  if err != nil {
-    log = zerolog.New(wr).With().Timestamp().Logger()
-  } else {
-    log = zerolog.New(wr).Level(lvl).With().Timestamp().Logger()
-  }
+	lvl, err := zerolog.ParseLevel(viper.GetString("log-level"))
+	if err != nil {
+		log = zerolog.New(wr).With().Timestamp().Logger()
+	} else {
+		log = zerolog.New(wr).Level(lvl).With().Timestamp().Logger()
+	}
 }
 
 func init() {

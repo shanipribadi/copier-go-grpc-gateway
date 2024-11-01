@@ -1,0 +1,9 @@
+package service
+
+import (
+	servicepb "{{module_path}}/gen/{{proto_service_package.replace('_','-').replace('.','/')}}"
+)
+
+type {{proto_service_name}} struct {
+	servicepb.Unimplemented{{proto_service_name}}Server
+}

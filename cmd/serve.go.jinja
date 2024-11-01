@@ -15,6 +15,7 @@ import (
 	"golang.org/x/sync/errgroup"
 
 	"{{module_path}}/server"
+	"{{module_path}}/service"
 )
 
 // serveCmd represents the serve command
@@ -37,8 +38,7 @@ to quickly create a Cobra application.`,
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		service := &server.{{proto_service_name}}{
-		}
+		svc := &service.{{proto_service_name}}{}
 		srv := server.New(
 			&server.ServerConfig{
 				ListenAddress: viper.GetString("listen-address"),
@@ -48,7 +48,7 @@ to quickly create a Cobra application.`,
 			},
 			&server.ServerDependencies{
 				Logger:       logger,
-				{{proto_service_name}}: service,
+				{{proto_service_name}}: svc,
 			},
 		)
 
